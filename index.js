@@ -88,58 +88,53 @@ app.post('/move', (request, response) => {
   circleSequenceRight = ['up', 'right', 'down', 'left']
   circleSequenceLeft = ['up', 'left', 'down', 'right']
   
-  function checkObstacle(direction, request)
-  {
-	  
-  }
-  
    // 0 == up, 1 == down, 2 == left, 3 == right
   function improvedMovement(request)
   {
 	  
-	  
-	  
-	  
-	  
+	  console.log(request.body.you.body.length)
 	  //avoid own body
+	  
 	  for(var i = 0; i < request.body.you.body.length; i++)
 	  {
-		  if(xHeadPos - 1 == request.body.you[i].x && yHeadPos == request.body.you[i].y)
+		  if(xHeadPos - 1 == request.body.you.body[i].x && yHeadPos == request.body.you.body[i].y)
 		  {
 			  console.log('body part on the left')
 			  //cant go left, choose ofhter option
-			  obstacle[left] == true
+			  obstacle[left] = true
 			  
 		  }
-		  if(xHeadPos + 1 == request.body.you[i].x && yHeadPos == request.body.you[i].y)
+		  if(xHeadPos + 1 == request.body.you.body[i].x && yHeadPos == request.body.you.body[i].y)
 		  {
 			  console.log('body part on the right')
 			  //cant go right, choose ofhter option
-			  obstacle[right] == true
+			  obstacle[right] = true
 		  }
 		  
-		  if(yHeadPos - 1 == request.body.you[i].y && xHeadPos == request.body.you[i].x)
+		  if(yHeadPos - 1 == request.body.you.body[i].y && xHeadPos == request.body.you.body[i].x)
 		  {
 			  console.log('body part above')
 			  //cant go up, choose ofhter option
-			  obstacle[up] == true 
+			  obstacle[up] = true 
 			  
 		  }
-		  if(yHeadPos + 1 == request.body.you[i].y && xHeadPos == request.body.you[i].x)
+		  if(yHeadPos + 1 == request.body.you.body[i].y && xHeadPos == request.body.you.body[i].x)
 		  {
 			  console.log('body part underneath')
 			  //cant go down, choose ofhter option
-			  obstacle[down] == true
+			  obstacle[down] = true
 		  }
 	  }
 	  //avoid other snake
-	  //go through all snakes
+	  //go through all snakes 
+	  
 	  for(var i = 0; i < request.body.board.snakes.length; i++)
 	  {
+		  console.log('here one')
 		  //go through x and y positions of every snake and avoid
-		  for(var x = 0; i < request.body.board.snakes[i].body[x].x; x++)
+		  for(var x = 0; x < request.body.board.snakes[i].body[x].x; x++)
 		  {
-			for(var y = 0; i < request.body.board.snakes[i].body[y].y; y++)
+			for(var y = 0; y < request.body.board.snakes[i].body[y].y; y++)
 			{
 				if(xHeadPos - 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
 				{
@@ -159,7 +154,7 @@ app.post('/move', (request, response) => {
 				if(yHeadPos + 1 == request.body.board.snakes[i].body[x].x && xHeadPos == request.body.snakes[i].body[y].x)
 				{
 					//other snake body underneath, turn up or down
-					obstacle[1]
+					obstacle[1] = true
 				}
 			}  
 		  }
