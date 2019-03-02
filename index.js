@@ -128,6 +128,7 @@ app.post('/move', (request, response) => {
 	  //avoid other snake
 	  //go through all snakes 
 	  
+	  /*
 	  for(var i = 0; i < request.body.board.snakes.length; i++)
 	  {
 		  console.log('here one')
@@ -158,7 +159,7 @@ app.post('/move', (request, response) => {
 				}
 			}  
 		  }
-	  }
+	  }*/
 	  
 	  //avoid wall: check board limits, get snake direction
 	  //rightmost postition of the board
