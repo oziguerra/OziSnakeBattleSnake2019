@@ -127,7 +127,7 @@ app.post('/move', (request, response) => {
 	  }
 	  //avoid other snake
 	  //go through all snakes 
-	  
+	  console.log('number of snakes in board: ' + request.body.board.snakes.length)
 	  if(request.body.board.snakes.length != 1)
 	  {
 		  console.log('number of snakes in board: ' + request.body.board.snakes.length)
@@ -301,18 +301,23 @@ app.post('/move', (request, response) => {
 				lastMoveDir = down
 				return 'down'
 			}
-			else if(yHeadPos == boardHeight - 1 && obstacle[up] == false)
+			else if(yHeadPos == boardHeight - 1)
 			{
 				console.log('bottom left corner, going left')
 				lastMoveDir = up
 				return 'up'
 			}
 			//if not in corners, return either up or down to not crash into wall
-			else
+			else if(obstacle[up] == true)
 			{
 				console.log('not in ant corners, just shoot up!')
 				lastMoveDir = down
 				return 'down'
+			}
+			else
+			{
+				lastMoveDir = up
+				return 'up'
 			}
 			//TODO also check if there is another snake in either direction and choose movement depending on that
 			break;
