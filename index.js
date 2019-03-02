@@ -128,14 +128,14 @@ app.post('/move', (request, response) => {
 	  //avoid other snake
 	  //go through all snakes 
 	  
-	  /*
+	  
 	  for(var i = 0; i < request.body.board.snakes.length; i++)
 	  {
 		  console.log('here one')
 		  //go through x and y positions of every snake and avoid
-		  for(var x = 0; x < request.body.board.snakes[i].body[x].x; x++)
+		  for(var x = 0; x < request.body.board.snakes[i].body.length; x++)
 		  {
-			for(var y = 0; y < request.body.board.snakes[i].body[y].y; y++)
+			for(var y = 0; y < request.body.board.snakes[i].body.length; y++)
 			{
 				if(xHeadPos - 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
 				{
@@ -159,7 +159,7 @@ app.post('/move', (request, response) => {
 				}
 			}  
 		  }
-	  }*/
+	  }
 	  
 	  //avoid wall: check board limits, get snake direction
 	  //rightmost postition of the board
