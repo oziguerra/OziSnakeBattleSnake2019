@@ -128,7 +128,9 @@ app.post('/move', (request, response) => {
 	  //avoid other snake
 	  //go through all snakes 
 	  
-	  
+	  if(request.body.board.snakes.length != 1)
+	  {
+		  console.log('number of snakes in board: ' + request.body.board.snakes.length)
 	  for(var i = 0; i < request.body.board.snakes.length; i++)
 	  {
 		  console.log('here one')
@@ -160,6 +162,7 @@ app.post('/move', (request, response) => {
 			}  
 		  }
 	  }
+	  }
 	  
 	  //avoid wall: check board limits, get snake direction
 	  //rightmost postition of the board
@@ -176,11 +179,16 @@ app.post('/move', (request, response) => {
 				lastMoveDir = left
 				return 'left'
 			}
-			else
+			else if(obstacle[up] == false)
 			{
 				//random movement, keep going up or go left maybe
 				lastMoveDir = up
 				return 'up'
+			}
+			else
+			{
+				lastMoveDir = left
+				return 'left'
 			}
 			break;
 			
@@ -191,9 +199,14 @@ app.post('/move', (request, response) => {
 				lastMoveDir = left
 				return 'left'
 			}
-			else
+			else if(obstacle[down] == true)
 			{
 				//random movement, keep going down or go left maybe
+				lastMoveDir = left
+				return 'left'
+			}
+			else
+			{
 				lastMoveDir = down
 				return 'down'
 			}
@@ -217,9 +230,14 @@ app.post('/move', (request, response) => {
 				return 'up'
 			}
 			//if not in corners, return either up or down to not crash into wall
-			else
+			else if(obstacle[up] == true)
 			{
 				console.log('not in ant corners, just shoot up!')
+				lastMoveDir = down
+				return 'down'
+			}
+			else
+			{
 				lastMoveDir = up
 				return 'up'
 			}
@@ -242,9 +260,14 @@ app.post('/move', (request, response) => {
 				lastMoveDir = right
 				return 'right'
 			}
-			else
+			else if(obstacle[up] == true)
 			{
 				//random movement, keep going up or go right maybe
+				lastMoveDir = right
+				return 'right'
+			}
+			else
+			{
 				lastMoveDir = up
 				return 'up'
 			}
@@ -257,10 +280,15 @@ app.post('/move', (request, response) => {
 				lastMoveDir = right
 				return 'right'
 			}
-			else
+			else if(obstacle[down] == true)
 			{
 				//random movement, keep going down or go right maybe
 				//randomMovementChoice = Math.floor((Math.random()*2)+1)
+				lastMoveDir = right
+				return 'right'
+			}
+			else
+			{
 				lastMoveDir = down
 				return 'down'
 			}
@@ -273,7 +301,7 @@ app.post('/move', (request, response) => {
 				lastMoveDir = down
 				return 'down'
 			}
-			else if(yHeadPos == boardHeight - 1)
+			else if(yHeadPos == boardHeight - 1 && obstacle[up] == false)
 			{
 				console.log('bottom left corner, going left')
 				lastMoveDir = up
@@ -283,8 +311,8 @@ app.post('/move', (request, response) => {
 			else
 			{
 				console.log('not in ant corners, just shoot up!')
-				lastMoveDir = up
-				return 'up'
+				lastMoveDir = down
+				return 'down'
 			}
 			//TODO also check if there is another snake in either direction and choose movement depending on that
 			break;
@@ -320,6 +348,11 @@ app.post('/move', (request, response) => {
 				return 'right'
 			}
 			//to not crash, go either right or left
+			else if(obstacle[right] == true)
+			{
+				lastMoveDir = left
+				return 'left'
+			}
 			else
 			{
 				lastMoveDir = right
@@ -331,13 +364,31 @@ app.post('/move', (request, response) => {
 			//keep going left or turn up
 				lastMoveDir = left
 				return 'left'
+				if(obstacle[left] == true)
+				{
+					lastMoveDir = up
+					return 'up'
+				}
+				else
+				{
+					lastMoveDir = left
+					return 'left'
+				}
 			//TODO also check if there is another snake in either direction and choose movement depending on that
 			break;
 			
 			case right:
 			//keep going right or turn up
+			if(obstacle[right] == true)
+			{
+				lastMoveDir = up
+				return 'up'
+			}
+			else
+			{
 				lastMoveDir = right
 				return 'right'
+			}
 			break;
 		}
 	}
