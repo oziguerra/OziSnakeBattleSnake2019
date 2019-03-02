@@ -330,9 +330,133 @@ app.post('/move', (request, response) => {
 	  //avoid own body
 	  for(var i = 0; i < request.body.you.body.length; i++)
 	  {
+		  if(xHeadPos - 1 == request.body.you[i].x && yHeadPos == request.body.you[i].y)
+		  {
+			  console.log('body part on the left')
+			  //cant go left, choose ofhter option
+			  obstacle[left] == true
+			  
+		  }
+		  if(xHeadPos + 1 == request.body.you[i].x && yHeadPos == request.body.you[i].y)
+		  {
+			  console.log('body part on the right')
+			  //cant go right, choose ofhter option
+			  obstacle[right] == true
+		  }
 		  
+		  if(yHeadPos - 1 == request.body.you[i].y && xHeadPos == request.body.you[i].x)
+		  {
+			  console.log('body part above')
+			  //cant go up, choose ofhter option
+			  obstacle[up] == true 
+			  
+		  }
+		  if(yHeadPos + 1 == request.body.you[i].y && xHeadPos == request.body.you[i].x)
+		  {
+			  console.log('body part underneath')
+			  //cant go down, choose ofhter option
+			  obstacle[down] == true
+		  }
 	  }
 	  //avoid other snake
+	  //go through all snakes
+	  for(var i = 0; i < request.body.board.snakes.length; i++)
+	  {
+		  //go through x and y positions of every snake and avoid
+		  for(var x = 0; i < request.body.board.snakes[i].body[x].x; x++)
+		  {
+			for(var y = 0; i < request.body.board.snakes[i].body[y].y; y++)
+			{
+				if(xHeadPos - 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
+				{
+					//other snake body to the left, turn up or down
+					obstacle[2] = true
+				}
+				if(xHeadPos + 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
+				{
+					//other snake body to the right, turn up or down'
+					obstacle[3] = true
+				}
+				if(yHeadPos - 1 == request.body.board.snakes[i].body[x].x && xHeadPos == request.body.snakes[i].body[y].x)
+				{
+					//other snake body above, turn up or down
+					obstacle[0] = true
+				}
+				if(yHeadPos + 1 == request.body.board.snakes[i].body[x].x && xHeadPos == request.body.snakes[i].body[y].x)
+				{
+					//other snake body underneath, turn up or down
+					obstacle[1]
+				}
+			}  
+		  }
+	  }
+	  
+	  if(obstacle[0] == true || obstacle[1] == true || obstacle[2] == true || obstacle[3] == true)
+	  {
+		  //if something is up, turn left or right
+		  if(obstacle[0] == true)
+		  {
+			  //if something left, go right
+			  if(obstacle[2] == true)
+			  {
+				  lastMoveDir = right
+				  return movesChar[right]
+			  }
+			  else
+			  {
+				  lastMoveDir = left
+				  return movesChar[left]
+			  }
+		  }
+		  
+		  //if something is down, turn left or right
+		  if(obstacle[1] == true)
+		  {
+			  //if something left, go right
+			  if(obstacle[2] == true)
+			  {
+				  lastMoveDir = right
+				  return movesChar[right]
+			  }
+			  else
+			  {
+				  lastMoveDir = left
+				  return movesChar[left]
+			  }
+		  }
+		  
+		  //if something is right, turn up or down
+		  if(obstacle[3] == true)
+		  {
+			  //if something is up, turn down
+			  if(obstacle[0] == true)
+			  {
+				  lastMoveDir = down
+				  return movesChar[down]
+			  }
+			  else
+			  {
+				  lastMoveDir = up
+				  return movesChar[up]
+			  }
+		  }
+		  
+		  //if something is left, turn up or down
+		  if(obstacle[2] == true)
+		  {
+			  //if something is up, turn down
+			  if(obstacle[0] == true)
+			  {
+				  lastMoveDir = down
+				  return movesChar[down]
+			  }
+			  else
+			  {
+				  lastMoveDir = up
+				  return movesChar[up]
+			  }
+		  }
+	  }
 	  
 	  //find food
 	  
@@ -1077,8 +1201,8 @@ function circleForever(request)
   // Response data
   const data = {
    //move: randomMove(request), // one of: ['up','down','left','right']
-   move: avoidWall(request)
-   //move: improvedMovement(request)
+   //move: avoidWall(request)
+   move: improvedMovement(request)
    //move: circleForever(request)
   }
 
