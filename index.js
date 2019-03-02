@@ -88,6 +88,11 @@ app.post('/move', (request, response) => {
   circleSequenceRight = ['up', 'right', 'down', 'left']
   circleSequenceLeft = ['up', 'left', 'down', 'right']
   
+  function checkObstacle(direction, request)
+  {
+	  
+  }
+  
    // 0 == up, 1 == down, 2 == left, 3 == right
   function improvedMovement(request)
   {
@@ -323,7 +328,10 @@ app.post('/move', (request, response) => {
 	  
 	  
 	  //avoid own body
-	  
+	  for(var i = 0; i < request.body.you.body.length; i++)
+	  {
+		  
+	  }
 	  //avoid other snake
 	  
 	  //find food
@@ -1069,8 +1077,8 @@ function circleForever(request)
   // Response data
   const data = {
    //move: randomMove(request), // one of: ['up','down','left','right']
-   //move: avoidWall(request)
-   move: improvedMovement(request)
+   move: avoidWall(request)
+   //move: improvedMovement(request)
    //move: circleForever(request)
   }
 
