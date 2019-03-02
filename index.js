@@ -29,8 +29,8 @@ var firstMoveDone = false
 var boardWidth
 var boardHeight
 var sequenceMoveSelector = 0
-var xHeadPos
-  var yHeadPos
+//var xHeadPos
+  //var yHeadPos
   var pastxHeadPos
   var pastyHeadPos
   var generalHeadPosition
@@ -76,8 +76,8 @@ app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
   //console.log(JSON.stringify(request.body))
   //position of head of snake
-  xHeadPos = request.body.you.body[0].x
-  yHeadPos = request.body.you.body[0].y
+  var xHeadPos = request.body.you.body[0].x
+  var yHeadPos = request.body.you.body[0].y
   generalHeadPosition = request.body.you.body
   //console.log(request.body.you.body)
   randomMovementChoice = Math.floor(Math.random() * 4) //numbers from 0 to 3
@@ -127,39 +127,41 @@ app.post('/move', (request, response) => {
 	  }
 	  //avoid other snake
 	  //go through all snakes 
-	  console.log('number of snakes in board: ' + request.body.board.snakes.length)
+	 
 	  if(request.body.board.snakes.length != 1)
 	  {
-		  console.log('number of snakes in board: ' + request.body.board.snakes.length)
-	  for(var i = 0; i < request.body.board.snakes.length; i++)
+		  var snakeNum = request.body.board.snakes.length
+		  console.log('number of snakes in board: ' + snakeNum)
+	  for(var i = 1; i < snakeNum; i++)
 	  {
 		  console.log('here one')
 		  //go through x and y positions of every snake and avoid
 		  for(var x = 0; x < request.body.board.snakes[i].body.length; x++)
 		  {
-			for(var y = 0; y < request.body.board.snakes[i].body.length; y++)
-			{
-				if(xHeadPos - 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
+			console.log(x + ' ' + i )
+			console.log('other body x position' + request.body.board.snakes[i].body[x].x)
+			console.log('other body y position' + request.body.board.snakes[i].body[x].y)
+				if(xHeadPos - 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[x].y)
 				{
 					//other snake body to the left, turn up or down
 					obstacle[2] = true
 				}
-				if(xHeadPos + 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[y].y)
+				if(xHeadPos + 1 == request.body.board.snakes[i].body[x].x && yHeadPos == request.body.snakes[i].body[x].y)
 				{
 					//other snake body to the right, turn up or down'
 					obstacle[3] = true
 				}
-				if(yHeadPos - 1 == request.body.board.snakes[i].body[x].x && xHeadPos == request.body.snakes[i].body[y].x)
+				if(yHeadPos - 1 == request.body.board.snakes[i].body[x].y && xHeadPos == request.body.snakes[i].body[x].x)
 				{
 					//other snake body above, turn up or down
 					obstacle[0] = true
 				}
-				if(yHeadPos + 1 == request.body.board.snakes[i].body[x].x && xHeadPos == request.body.snakes[i].body[y].x)
+				if(yHeadPos + 1 == request.body.board.snakes[i].body[x].y && xHeadPos == request.body.snakes[i].body[x].x)
 				{
 					//other snake body underneath, turn up or down
 					obstacle[1] = true
 				}
-			}  
+			
 		  }
 	  }
 	  }
