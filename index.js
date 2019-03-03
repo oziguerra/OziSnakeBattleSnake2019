@@ -128,7 +128,7 @@ app.post('/move', (request, response) => {
 	  //avoid other snake
 	  //go through all snakes 
 	 
-	  if(request.body.board.snakes.length > 2)
+	  /*if(request.body.board.snakes.length > 2)
 	  {
 		  var snakeNum = request.body.board.snakes.length
 		  console.log('number of snakes in board: ' + snakeNum)
@@ -194,7 +194,7 @@ app.post('/move', (request, response) => {
 				}
 			
 		  }
-	  }
+	  }*/
 	  
 	  //avoid wall: check board limits, get snake direction
 	  //rightmost postition of the board
