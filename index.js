@@ -128,7 +128,7 @@ app.post('/move', (request, response) => {
 	  //avoid other snake
 	  //go through all snakes 
 	 
-	  if(request.body.board.snakes.length != 1)
+	  if(request.body.board.snakes.length > 2)
 	  {
 		  var snakeNum = request.body.board.snakes.length
 		  console.log('number of snakes in board: ' + snakeNum)
@@ -164,6 +164,36 @@ app.post('/move', (request, response) => {
 			
 		  }
 	  }
+	  }
+	  else
+	  {
+		  for(var x = 0; x < request.body.board.snakes.body.length; x++)
+		  {
+			console.log(x + ' ' + i )
+			console.log('other body x position' + request.body.board.snakes[1].body[x].x)
+			console.log('other body y position' + request.body.board.snakes[1].body[x].y)
+				if(xHeadPos - 1 == request.body.board.snakes[1].body[x].x && yHeadPos == request.body.snakes[1].body[x].y)
+				{
+					//other snake body to the left, turn up or down
+					obstacle[2] = true
+				}
+				if(xHeadPos + 1 == request.body.board.snakes[1].body[x].x && yHeadPos == request.body.snakes[1].body[x].y)
+				{
+					//other snake body to the right, turn up or down'
+					obstacle[3] = true
+				}
+				if(yHeadPos - 1 == request.body.board.snakes[1].body[x].y && xHeadPos == request.body.snakes[1].body[x].x)
+				{
+					//other snake body above, turn up or down
+					obstacle[0] = true
+				}
+				if(yHeadPos + 1 == request.body.board.snakes[1].body[x].y && xHeadPos == request.body.snakes[1].body[x].x)
+				{
+					//other snake body underneath, turn up or down
+					obstacle[1] = true
+				}
+			
+		  }
 	  }
 	  
 	  //avoid wall: check board limits, get snake direction
